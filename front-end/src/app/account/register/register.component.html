@@ -1,0 +1,40 @@
+<div class="container">
+
+    <div class="row mt-5">
+
+        <div class="d-flex justify-content-center">
+            <form class="col-lg-3" name="form" (ngSubmit)="registerForm.form.valid && onSubmit()" novalidate #registerForm="ngForm" appPasswordPattern>
+                <h4 class="mb-1">Create an Account</h4>
+
+                <small>Already A Member ? <a [routerLink]="['/login']" routerLinkActive="router-link-active" >login in</a></small>
+                <p class="response {{ response.status }} mt-2"> {{ response.message }} </p>
+
+                <div class="mb-2">
+                    <input type="text" class="form-control form-control-sm" placeholder="Username" name="username" required [(ngModel)]="model.username" #username="ngModel">
+                    <small [hidden]="username.valid || username.pristine" class="error">
+                        Username is required
+                    </small>
+                </div>
+                <div class="mb-2">
+                    <input type="password" class="form-control form-control-sm" id="exampleInputPassword1" placeholder="Password" name="password" required [(ngModel)]="model.password" #password="ngModel">
+
+                    <small [hidden]="password.valid || password.pristine" class="error">
+                        Password is required
+                    </small>
+                </div>
+                <div class="mb-2">
+                    <input type="password" class="form-control form-control-sm" id="exampleInputPassword1" placeholder="Confirm Password" name="confirmPassword" required [(ngModel)]="model.confirmPassword" #confirmPassword="ngModel">
+                    <div *ngIf="registerForm.submitted && confirmPassword.errors" class="invalid-feedback">
+                        <div *ngIf="confirmPassword.errors['matching']">
+                            Confirm Password does not match
+                        </div>
+
+                    </div>
+                </div>
+
+                <button [disabled]="!registerForm.form.valid" type="submit" class="btn btn-primary btn-sm">Create account</button>
+            </form>
+        </div>
+
+    </div>
+</div>

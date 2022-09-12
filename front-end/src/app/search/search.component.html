@@ -1,0 +1,38 @@
+<div class="container">
+    <div class="row">
+        <!-- Go home  -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding-bottom: 20px">
+            <div class="container-fluid">
+                <a class="navbar-brand" [routerLink]="['/']" routerLinkActive="router-link-active">Better Reads</a>
+            </div>
+        </nav>
+
+        <form name="search" class="mt-2" (ngSubmit)="searchForm.form.valid && onSubmit()" #searchForm="ngForm">
+            <div class="input-group mb-3">
+                <input type="text" name="query" class="form-control" placeholder="Search for a title" aria-label="Search query" aria-describedby="button-addon2" required [(ngModel)]="query">
+                <button [disabled]="!searchForm.form.valid" type="submit" class="btn btn-outline-secondary" id="button-addon2">Search</button>
+            </div>
+        </form>
+
+        <div class="card-group">
+            <div class="card" style="flex: 0 0 18%; margin: 30px;" *ngFor="let book of books">
+
+                <img [src]="book.cover_i != null ? book.cover_i : 'assets/images/no-image.png'" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{ book.title }} </h5>
+                    <a [routerLink]="['/book', book.key]" class="btn btn-primary">View book</a>
+                </div>
+            </div>
+
+        </div>
+
+        <div *ngIf="books.length == 0" class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

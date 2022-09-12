@@ -1,0 +1,78 @@
+<main class="container text-center heading-top mt-5" *ngIf="!isLogin">
+
+    <h1 class="display-5 fw-bold">Better Reads</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4 space-bottom">Control your reading habit. Track the books you read and fuel your reading.</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center  justify-content-sm-center space-bottom">
+            <button [routerLink]="['/login']" routerLinkActive="router-link-active" type="button" class="btn btn-primary" style="margin-right:10px;">Sign in</button>
+            <button [routerLink]="['/register']" routerLinkActive="router-link-active" type="button" class="btn btn-outline-success">Sign up</button>
+        </div>
+    </div>
+    <div class="col-lg-6 mx-auto mt-4">
+        <p class="lead mb-1 space-bottom">Or search for a book</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <div>
+                <form name="search" (ngSubmit)="searchForm.form.valid && onSubmit()" #searchForm="ngForm">
+                    <div class="input-group mb-3">
+                        <input type="text" name="query" class="form-control" placeholder="Search for a title" aria-label="Search query" aria-describedby="button-addon2" required [(ngModel)]="query">
+                        <button [disabled]="!searchForm.form.valid" type="submit" class="btn btn-outline-secondary" id="button-addon2">Search</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+
+<div class="container" *ngIf="isLogin">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" style="padding-bottom: 20px">
+        <div class="container-fluid">
+            <a class="navbar-brand" [routerLink]="['']" routerLinkActive="router-link-active">Better Reads</a>
+
+        </div>
+    </nav>
+
+
+    <form name="search" class="mt-2" (ngSubmit)="searchForm.form.valid && onSubmit()" #searchForm="ngForm">
+        <div class="input-group mb-3">
+            <input type="text" name="query" class="form-control" placeholder="Search for a title" aria-label="Search query" aria-describedby="button-addon2" required [(ngModel)]="query">
+            <button [disabled]="!searchForm.form.valid" type="submit" class="btn btn-outline-secondary" id="button-addon2">Search</button>
+        </div>
+    </form>
+
+    <div class="row mt-5">
+
+
+        <h1>My Books</h1>
+
+        <div class="card mb-3 col-lg-4" style="max-width: 540px;" *ngFor="let book of books">
+            <div class="card mb-3">
+                <div class="row g-0">
+                    <div class="col-md-4">
+                        <img src="{{ book.coverUrl }}" class="img-fluid rounded-start">
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <a [routerLink]="['/book',book.bookId]" routerLinkActive="router-link-active" class="card-title">{{ book.bookName }}</a>
+                            <p class="card-text">{{ book.authorNames }}</p>
+
+                            <div [ngSwitch]="book.readingStatus">
+                                <p *ngSwitchCase="'0-reading'" class="card-text">Currently Reading</p>
+                                <p *ngSwitchCase="'1-finished'" class="card-text">Finished</p>
+                                <p *ngSwitchCase="'2-dnf'" class="card-text">Did not finish</p>
+                            </div>
+
+                            <p class="card-text">
+                                <span *ngFor="let item of [].constructor(book.rating); let i = index">&#9733; </span>
+                                <!-- <span th:each="rating: ${#numbers.sequence(0, book.rating - 1)}">&#9733;</span> -->
+                            </p>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+.error {
+    color: #e53935;
+}
+
+.success {
+    color: #388e3c;
+}
+
+.response {
+    font-size: 0.9rem;
+    font-weight: 600;
+}
