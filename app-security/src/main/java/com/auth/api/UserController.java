@@ -1,5 +1,6 @@
 package com.auth.api;
 
+import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -18,7 +19,7 @@ import com.auth.services.UserService;
 import com.datastax.oss.driver.api.core.uuid.Uuids;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class UserController {
 	
 	@Autowired
@@ -40,10 +41,17 @@ public class UserController {
 		User userExist = userService.getUser(user.getUsername());
 		if (userExist == null ) {
 			userService.save(user);
-			response.put("success", (String) "User "+user.getUsername() +" created successfully" );
+			response.put("status","success");
+			response.put("message", (String) "User "+user.getUsername() +" created successfully" );
 		}else {
-			response.put("error", (String) "User "+user.getUsername() +" already exist" );			
+			response.put("status","error");
+			response.put("message", (String) "User "+user.getUsername() +" already exist" );			
 		}
 		return  ResponseEntity.ok().body(response);
 	}
+	
+	@GetMapping(value = "/username")	    
+    public ResponseEntity<User> currentUserName(Principal principal) { 		
+        return ResponseEntity.ok().body(userService.getUser(principal.getName()));
+    }
 }
