@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.config.ldap.EmbeddedLdapServerContextSourceFactoryBean;
+import org.springframework.security.config.ldap.LdapBindAuthenticationManagerFactory;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -35,7 +37,7 @@ public class SecurityConfig {
 
 	private final BCryptPasswordEncoder bCryptPasswordEncoder; 
 	
-	//@Bean
+//	@Bean
     public DaoAuthenticationProvider authenticationProvider() {    	
         DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
         auth.setUserDetailsService(userDetailsService);
@@ -43,28 +45,28 @@ public class SecurityConfig {
         
         return auth;
     }
+   
     	
    @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)
             throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+	   return authenticationConfiguration.getAuthenticationManager();	   
     }
+   
+
   
-	
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
-		
 		http.csrf().disable();
-		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);		
 		http.authorizeHttpRequests( (authz) -> authz
-				.antMatchers("/login","/api/root","/api/user/register","/error").permitAll()
-				.antMatchers(HttpMethod.POST, "/login").permitAll()
+				.antMatchers("/api/user/login", "/api/user/root","/api/user/register","/error").permitAll()
+				.antMatchers(HttpMethod.POST, "/api/user/login").permitAll()
 				.anyRequest().authenticated()
-				);
-		//http.authenticationManager(authenticationManager);		
-		// antMatchers("/error").permitAll()
-		http.apply(CustomDsl.getCustomDsl());
-		http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+				);		
+		
+		http.apply(CustomDsl.getCustomDsl());		
+		http.addFilterBefore(new CustomAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);		
 		http.cors();
 		return http.build();
 	}
