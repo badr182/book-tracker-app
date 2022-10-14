@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: book-tracker
+    
+  codec:
+    max-in-memory-size: 10MB
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          github:
+#            client-id: Iv1.221f5b18d5ff7a28
+#            client-secret: e25db6aca3901dd8a129c8e336753560b71c8e36
+#            
+  data:
+    cassandra:
+      keyspace-name: main
+      username: ##<username>                
+      password: #<secret>
+      schema-action: create-if-not-exists # recreate
+      request:
+        timeout: 10s
+      connection:
+        connect-timeout: 10s
+        init-query-timeout: 10s
+
+#spring.application.name: book-tracker
+
+datastax.astra:
+  secure-connect-bundle: secure-connect.zip
+  
+astra.db:
+  id: #<db-id>
+  region: europe-west1  
+  keyspace: main
+  application.token: ##<token>
+  
+  
+  
+  
+              
+          
