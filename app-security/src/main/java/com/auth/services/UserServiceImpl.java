@@ -1,9 +1,12 @@
 package com.auth.services;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails ;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -42,11 +45,19 @@ public class UserServiceImpl implements UserService, UserDetailsService{
 
 	@Override
 	public UserDetails loadUserByUsername(String username)
-			throws UsernameNotFoundException {
-		// TODO Auto-generated method stub
-		String s = "100";
-		// ROLE_USER
-		return new org.springframework.security.core.userdetails.User("badr", "$2a$10$YGiakT/cKZ7TPoM2R5ydVed.cADSXGwepHOPlh38/2t71ocx2D3S2", new ArrayList<GrantedAuthority>());
-		// return null;
+			throws UsernameNotFoundException {			
+		Optional<User> user = userRepo.findByUsername(username);
+		// user.
+		if (!user.isPresent()) {
+			log.error("User not found in the db");
+			throw new UsernameNotFoundException("User not found in the db");
+		}else {
+			log.info("User found in the database: {}",username);
+		}
+		Collection<SimpleGrantedAuthority> authorities = new ArrayList<SimpleGrantedAuthority>();
+//		user.getRoles().forEach( role -> { 
+//			authorities.add(new SimpleGrantedAuthority(role.getName()));
+//		});
+		return new org.springframework.security.core.userdetails.User(user.get().getUsername(), user.get().getPassword(), authorities);
 	}
 }
