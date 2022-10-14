@@ -19,7 +19,7 @@ import com.auth.services.UserService;
 import com.datastax.oss.driver.api.core.uuid.Uuids;
 
 @RestController
-//@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserController {
 	
 	@Autowired
@@ -30,12 +30,12 @@ public class UserController {
 	
 	@GetMapping("/root")
 	public String test() {
-		User user = new User(Uuids.timeBased().toString(),"badr","badr600"); 
-		userRepo.save(user);
+//		User user = new User(Uuids.timeBased().toString(),"badr","badr600"); 
+//		userRepo.save(user);
 		return "hi there";
 	}
 	
-	@PostMapping("/user/register")
+	@PostMapping("/register")
 	public ResponseEntity<Map<String, Object>> register(@RequestBody User user) {
 		Map<String, Object> response = new HashMap<String, Object>();
 		User userExist = userService.getUser(user.getUsername());
