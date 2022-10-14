@@ -7,6 +7,9 @@ import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.Column;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.springframework.data.cassandra.core.mapping.CassandraType.Name;
 
 import lombok.AllArgsConstructor;
@@ -27,6 +30,7 @@ public class User {
     @CassandraType(type = Name.TEXT)
     private String username;
 	
+	@JsonIgnore
 	@Column("password")
     @CassandraType(type = Name.TEXT)
     private String password;
