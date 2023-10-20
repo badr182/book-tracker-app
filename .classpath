@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="app-security/src/main/java"/>
+	<classpathentry kind="src" path="app-security/src/test/java"/>
+	<classpathentry kind="src" path="app-tracker-book/.mvn/wrapper"/>
+	<classpathentry kind="src" path="app-tracker-book/src/main/java"/>
+	<classpathentry kind="lib" path="app-security/.mvn/wrapper/maven-wrapper.jar"/>
+	<classpathentry kind="lib" path="app-security/bin/.mvn/wrapper/maven-wrapper.jar"/>
+	<classpathentry kind="output" path="app-security/target/classes"/>
+</classpath>
